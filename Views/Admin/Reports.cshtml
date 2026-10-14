@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Sales Reports";
+}
+
+<div class="container py-5">
+    <h1 class="fw-bold">Sales Reports</h1>
+    <p class="text-muted mb-4">
+        Preview of the sales reporting dashboard.
+    </p>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <p class="text-muted">Today's Sales</p>
+                <div class="stat-number">₹4,250</div>
+                <small>Illustrative value</small>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-card">
+                <p class="text-muted">Monthly Sales</p>
+                <div class="stat-number">₹82,600</div>
+                <small>Illustrative value</small>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-card">
+                <p class="text-muted">Completed Orders</p>
+                <div class="stat-number">104</div>
+                <small>Illustrative value</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="border rounded-4 p-4 mt-4">
+        <h4 class="fw-bold">Monthly Performance</h4>
+        <p class="text-muted">
+            Once SQL Server is connected, this section can show
+            actual daily and monthly revenue using a chart.
+        </p>
+
+        <div class="progress" role="progressbar"
+             aria-label="Illustrative monthly sales progress"
+             aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+             style="height: 18px;">
+            <div class="progress-bar"
+                 style="width: 70%; background: var(--brand);">
+                Demo
+            </div>
+        </div>
+    </div>
+
+    <a asp-controller="Admin" asp-action="Index"
+       class="btn btn-outline-brand mt-4">← Back to Dashboard</a>
+</div>

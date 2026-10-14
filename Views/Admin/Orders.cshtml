@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Manage Orders";
+}
+
+<div class="container py-5">
+    <h1 class="fw-bold">Manage Orders</h1>
+    <p class="text-muted mb-4">Sample order management screen.</p>
+
+    <div class="table-responsive border rounded-4 p-3">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Order Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#1001</td>
+                    <td>Demo Customer</td>
+                    <td>13 Oct 2026</td>
+                    <td>₹398</td>
+                    <td><span class="badge text-bg-warning">Pending</span></td>
+                    <td>
+                        <select class="form-select form-select-sm"
+                                aria-label="Demo order status"
+                                onchange="alert('Demo only: status is not saved.')">
+                            <option selected>Pending</option>
+                            <option>Confirmed</option>
+                            <option>Preparing</option>
+                            <option>Out for Delivery</option>
+                            <option>Delivered</option>
+                            <option>Cancelled</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#1002</td>
+                    <td>Sample Customer</td>
+                    <td>13 Oct 2026</td>
+                    <td>₹248</td>
+                    <td><span class="badge text-bg-success">Delivered</span></td>
+                    <td>
+                        <span class="text-muted">Completed</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a asp-controller="Admin" asp-action="Index"
+       class="btn btn-outline-brand mt-4">← Back to Dashboard</a>
+</div>
+

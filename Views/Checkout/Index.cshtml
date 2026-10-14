@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+}
+
+<section class="page-banner">
+    <div class="container">
+        <h1>Checkout</h1>
+        <p class="text-muted mb-0">
+            Enter your delivery details.
+        </p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <form id="checkoutForm" class="row g-4">
+            <div class="col-lg-7">
+                <div class="border rounded-4 p-4">
+                    <h4 class="fw-bold mb-4">Delivery Information</h4>
+
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">
+                            Full Name
+                        </label>
+                        <input id="fullName" class="form-control"
+                               required maxlength="100"
+                               autocomplete="name" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            Email Address
+                        </label>
+                        <input id="email" type="email"
+                               class="form-control"
+                               required maxlength="150"
+                               autocomplete="email" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">
+                            Phone Number
+                        </label>
+                        <input id="phone" type="tel"
+                               class="form-control"
+                               required maxlength="15"
+                               autocomplete="tel"
+                               pattern="[0-9+() -]{7,15}" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">
+                            Delivery Address
+                        </label>
+                        <textarea id="address" class="form-control"
+                                  rows="3" required maxlength="500"
+                                  autocomplete="street-address"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="instructions" class="form-label">
+                            Delivery Instructions (Optional)
+                        </label>
+                        <textarea id="instructions"
+                                  class="form-control" rows="2"
+                                  maxlength="300"></textarea>
+                    </div>
+
+                    <h5 class="fw-bold mt-4">Payment Method</h5>
+
+                    <div class="border rounded-3 p-3">
+                        <label class="d-flex gap-2 align-items-center">
+                            <input type="radio" name="payment"
+                                   value="COD" checked />
+                            <span>Cash on Delivery (COD)</span>
+                        </label>
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-brand btn-lg w-100 mt-4">
+                        Place Demo Order
+                    </button>
+
+                    <div id="checkoutMessage"
+                         class="alert alert-info mt-3 d-none"
+                         role="status"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="summary-card">
+                    <h4 class="fw-bold mb-3">Your Order</h4>
+                    <div id="checkoutItems"></div>
+
+                    <hr />
+
+                    <div class="summary-row fw-bold fs-5">
+                        <span>Total</span>
+                        <span id="checkoutTotal" class="text-brand">
+                            ₹0.00
+                        </span>
+                    </div>
+
+                    <a href="/Cart" class="btn btn-outline-brand w-100 mt-3">
+                        Edit Cart
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        const checkoutForm = document.getElementById("checkoutForm");
+        const checkoutItems = document.getElementById("checkoutItems");
+        const checkoutTotal = document.getElementById("checkoutTotal");
+        const checkoutMessage =
+            document.getElementById("checkoutMessage");
+
+        function renderCheckout() {
+            const cart = getCart();
+
+            if (!cart.length) {
+                checkoutItems.innerHTML =
+                    '<p class="text-muted">Your cart is empty. ' +
+                    '<a href="/Menu">Browse our menu</a>.</p>';
+
+                checkoutTotal.textContent = money(0);
+                checkoutForm.querySelector('button[type="submit"]').disabled =
+                    true;
+                return;
+            }
+
+            checkoutForm.querySelector('button[type="submit"]').disabled =
+                false;
+
+            checkoutItems.innerHTML = cart.map(item => `
+                <div class="summary-row">
+                    <span>${escapeHTML(item.name)} × ${item.quantity}</span>
+                    <strong>${money(item.price * item.quantity)}</strong>
+                </div>
+            `).join("");
+
+            const total = cart.reduce(
+                (sum, item) => sum + item.price * item.quantity, 0
+            );
+
+            checkoutTotal.textContent = money(total);
+        }
+
+        checkoutForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            if (!checkoutForm.reportValidity()) return;
+
+            const cart = getCart();
+
+            if (!cart.length) {
+                checkoutMessage.textContent =
+                    "Your cart is empty. Please add food first.";
+                checkoutMessage.classList.remove("d-none");
+                return;
+            }
+
+            checkoutMessage.textContent =
+                "Frontend demo only: your details were not submitted " +
+                "and no order was saved. Connect the backend to place " +
+                "a real order.";
+            checkoutMessage.classList.remove("d-none");
+        });
+
+        renderCheckout();
+    </script>
+}
